@@ -1,9 +1,12 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import to_date, col, sum 
+from pyspark.sql.types import IntegerType, DecimalType
 
 spark = SparkSession.builder.appName("gold").getOrCreate()
 
 ventas = spark.read.parquet("silver/ventas")
+
+facturas = spark.read.parquet("silver/facturas_meta")
 
 ventas_por_dia = (ventas.groupBy("fecha").agg(
 sum("importe").alias("ventas_totales"),
