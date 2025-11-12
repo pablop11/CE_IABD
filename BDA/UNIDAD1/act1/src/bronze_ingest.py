@@ -11,7 +11,6 @@ logs = spark.read.option("multiline", True).json("data/logs_web.json")
 logs.show()
 
 ventas.write.mode("overwrite").parquet("bronze/ventas")
-
 ventas.show()
 
 clientes.write.mode("overwrite").parquet("bronze/clientes")

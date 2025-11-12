@@ -22,5 +22,18 @@ sum("importe").alias("importe_total")
 
 top5.write.mode("overwrite").parquet("gold/top5_productos")
 
+ventas_agr = (ventas.groupBy("id_cliente", "fecha").agg(
+sum("importe").alias("ventas_importe"),
+sum("unidades").alias("ventas_unidades"))
+)
+
+comparativa = (ventas_agr
+.join(facturas, ["id_cliente", "fecha"], "left")
+.withColumn("diferencia", col("ventas_importe") - col("importe_total"))
+)
+
+comparativa.write.mode("overwrite").parquet("gold/comparativa_ventas_facturas")
+comparativa.show()
+
 print("Gold listo")
 spark.stop()
