@@ -1,2 +1,3 @@
-/BDA/UNIDAD1/act1/venv
-*.docx#
+**/venv/
+**/*.docx#
+**/*.doc#
