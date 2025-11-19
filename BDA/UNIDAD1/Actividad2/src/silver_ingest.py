@@ -12,6 +12,7 @@ pedidos = (pedidos
 .withColumn("id_cliente", col("id_cliente").cast(IntegerType()))
 .withColumn("fecha_pedido", coalesce(
     to_date(col("fecha_pedido"), "dd/MM/yyyy"),
+    to_date(col("fecha_pedido"), "dd-MM-yyyy"),
     to_date(col("fecha_pedido"), "yyyy/MM/dd"),
     to_date(col("fecha_pedido"), "yyyy-MM-dd")
     ))
@@ -30,7 +31,6 @@ tracking = (tracking
     to_timestamp(col("ts"), "yyyy/MM/dd'T'HH:mm:ss'Z'"),
     to_timestamp(col("ts"), "yyyy-MM-dd'T'HH:mm:ss'Z'")
     ))
-.dropDuplicates(["id_pedido"])
 )
 
 pedidos.show()
