@@ -5,30 +5,26 @@ from pyspark.sql import functions as F
 
 spark = SparkSession.builder.appName("gold").getOrCreate()
 
-libros = spark.read.parquet("silver/books")
+tablets = spark.read.parquet("silver/tablets")
 
-precio_medio = (libros
+precio_medio = (tablets
 .agg(avg("precio").alias("precio medio"))
 )
 precio_medio.show()
 
-precio_minimo = (libros
+precio_minimo = (tablets
 .agg(min("precio").alias("precio minimo"))                 
 )
 precio_minimo.show()
 
-precio_maximo = (libros
+precio_maximo = (tablets
 .agg(max("precio").alias("precio maximo"))
 )
 precio_maximo.show()
 
-top5_libros_mas_caros = libros.orderBy("precio", ascending=False).limit(5)
-top5_libros_mas_caros.show()
-
 precio_medio.write.mode("overwrite").parquet("gold/precio_medio")
 precio_minimo.write.mode("overwrite").parquet("gold/precio_minimo")
 precio_maximo.write.mode("overwrite").parquet("gold/precio_maximo")
-top5_libros_mas_caros.write.mode("overwrite").parquet("gold/top5_libros_mas_caros")
 
 print("Gold listo")
 spark.stop()
