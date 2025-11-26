@@ -7,10 +7,12 @@ spark = SparkSession.builder.appName("bronze-scraping").getOrCreate()
 base_url = "https://webscraper.io/test-sites/e-commerce/static/computers/tablets?page="
 
 data = []
+page_num = 0
 
-# Iterar sobre las páginas de 1 a 4
-for page_num in range(1, 5):
+# Iterar sobre las páginas 
+while True:
     # Crear la URL completa para la página actual
+    page_num += 1
     URL = base_url + str(page_num)
 
     # Realizar la solicitud GET para obtener el HTML
@@ -24,10 +26,15 @@ for page_num in range(1, 5):
     # Seleccionar todos los divs con la clase 'product-wrapper' (que es el contenedor de cada tablet)
     tablets = soup.select("div.product-wrapper")
 
+    # Si no hay tablets termina el bucle while y se ejecuta el for
+    if not tablets:
+        print(f"No se encontraron tablets en la página {page_num}. Fin del scraping.")
+        break
+
     # Verificar si se están seleccionando correctamente los productos
     print(f"Se encontraron {len(tablets)} tablets en la página {page_num}.")
 
-    # Iterar sobre cada producto y extraer el nombre y el precio
+    # Iterar sobre cada producto y extraer el nombre, el precio y el rating
     for t in tablets:
         try:
             # Obtener el h4 que contiene el <a> (el nombre del producto)
@@ -45,7 +52,14 @@ for page_num in range(1, 5):
             else:
                 price = None
 
-            data.append((title, price))
+            # Obtener el rating (data-rating) si está presente
+            rating_tag = t.select_one("p[data-rating]")
+            if rating_tag and "data-rating" in rating_tag.attrs:
+                rating = rating_tag["data-rating"]
+            else:
+                rating = None
+
+            data.append((title, price, rating))
 
         except Exception as e:
             print("Error leyendo tablet:", e)
@@ -57,7 +71,8 @@ for page_num in range(1, 5):
 # Definir el esquema para el DataFrame
 schema = StructType([
     StructField("titulo", StringType(), True),
-    StructField("precio", DoubleType(), True)
+    StructField("precio", DoubleType(), True),
+    StructField("rating", StringType(), True)
 ])
 
 df_scraping = spark.createDataFrame(data, schema)
@@ -67,8 +82,9 @@ df_scraping = spark.createDataFrame(data, schema)
 # =======================================================
 
 df_scraping.write.mode("overwrite").parquet("bronze/tablets")
-df_scraping.show(10)
+df_scraping.show()
 
 print("BRONZE scraping listo.")
 
 spark.stop()
+
