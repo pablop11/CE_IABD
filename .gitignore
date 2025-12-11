@@ -2,3 +2,6 @@
 **/*.docx#
 **/*.doc#
 **/*.tar.gz
+**/content/
+**/clase_yolo/
+**/*.pt
