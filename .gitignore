@@ -10,3 +10,5 @@
 **/*.jpeg
 **/*.zip
 **/*.txt
+**/Banana Ripeness Classification.v2-original-images_modifiedclasses.folder/
+**/runs/
