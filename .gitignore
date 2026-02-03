@@ -7,10 +7,13 @@
 **/*.pt
 **/EXAMEN/
 **/*.zip
+
 **/Banana Ripeness Classification.v2-original-images_modifiedclasses.folder/
 **/dataset/
 **/datasetcompleto/
 **/dataset-piedra-papel-tijeras/
+**/bbox-retail.v1i.yolov11/
+**/drinks.v1i.yolov11/
 **/runs/
 
 **/LabelStudio.png
