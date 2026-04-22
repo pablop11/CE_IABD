@@ -12,6 +12,8 @@
 **/*.env
 **/*.jpg
 
+SBD
+
 **/examen_enunciado/
 
 **/Banana Ripeness Classification.v2-original-images_modifiedclasses.folder/
