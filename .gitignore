@@ -11,6 +11,7 @@
 **/*.mp3
 **/*.env
 **/*.jpg
+**/*.keras
 
 SBD
 
