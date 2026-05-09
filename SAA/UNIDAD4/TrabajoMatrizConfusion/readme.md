@@ -16,6 +16,7 @@
 <div style="page-break-after: always;"></div>
 <div style="page-break-after: always;"></div>
 
+<!-- INDICE -->
 <h1>ÍNDICE:</h1>
 <!-- Ctrl + Shift + V -->
 
@@ -72,6 +73,7 @@
 <!-- Salto de pagina -->
 <div style="page-break-after: always;"></div>
 
+<!-- 1. Introducción -->
 <h2 id="introduccion">Introducción</a></h2>
 
 <p>El accidente cerebrovascular (ACV) representa una de las emergencias médicas más críticas en la actualidad. Según la Organización Mundial de la Salud (OMS), es la segunda causa de muerte a nivel global, responsable de aproximadamente el 11% del total de defunciones. Debido a que la intervención temprana es el factor determinante para reducir la mortalidad y las secuelas permanentes, la identificación de pacientes de alto riesgo mediante variables clínicas (como la hipertensión, el índice de masa corporal y la edad) es una prioridad en salud pública.
@@ -87,22 +89,47 @@ Desde una perspectiva técnica, este problema presenta un desafío común en el 
 </ul>
 </p>
 
+<!-- 2. Descripción del dataset -->
 <h2 id="descripcion">Descripción del dataset</a></h2>
 
 <p>El dataset que he decidido para usar en este trabajo trata sobre un conjuntos de datos que se utiliza para predecir si es probable que un paciente tenga un accidente cerebrovascular en función de los parámetros de entrada como el género, la edad, varias enfermedades y el estado de tabaquismo. Cada fila en los datos proporciona información relevante sobre el paciente. Ademas el origen del dataset es confidencial y con uso educativo unicamente, a excepcion de uso para investigacion pero acreditando al autor. El dataset se puede descargar desde este enlace: 
 <a href="https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset" target="_blank">Stroke Prediction Dataset disponible en Kaggle.</a></p>
 
-<p>Tras analizar y explorar el dataset, he podido comprobar que se trata de un dataset con dos clases stroke (0/1) bastante desbalanceado. En total hay 5110 registros de los cuales hay:
+<p>Las columnas de las que disponemos son:
+<ul>
+    <li><b>id:</b> identificador único.</li>
+    <li><b>gender:</b> género del paciente.</li>
+    <li><b>age:</b> edad del paciente.</li>
+    <li><b>hypertension:</b> 0 si el paciente no tiene hipertensión, 1 si el paciente tiene hipertensión.</li>
+    <li><b>heart_disease:</b> 0 si el paciente no tiene ninguna enfermedad cardíaca, 1 si el paciente tiene una enfermedad cardíaca.</li>
+    <li><b>ever_casado:</b> si o no.</li>
+    <li><b>work_type:</b> tipo de trabajo.</li>
+    <li><b>residence_type:</b> tipo de residencia.</li>
+    <li><b>avg_glucose_nivel:</b> nivel promedio de glucosa en sangre.</li>
+    <li><b>bmi:</b> índice de masa corporal.</li>
+    <li><b>smoking_status:</b> estado de fumador.</li>
+    <li><b>stroke:</b> 1 si el paciente tuvo un accidente cerebrovascular o 0 si no.</li>
+</ul>
+</p>
+
+<img src="Capturas/head_dataset.png" alt="Descripción de la imagen">
+<br></br>
+
+<p>Tras analizar y explorar el dataset, he podido comprobar que se trata de un dataset con dos clases stroke (0/1) bastante desbalanceado, esto puede causar problemas al modelo a la hora de entrenarlo ya que dispone de muy pocos casos de pacientes que han sufrido un accidente cerebrovascular. En total hay 5110 registros de los cuales hay:
 <ul>
     <li><b>Stork 0:</b> 4861.</li>
     <li><b>Stork 1:</b> 249.</li>
 </ul>
-Ademas este dataset cuenta con un total de 201 valores nulo en la columna "bmi" (indice de masa corporal), al ser un numero muy reducido ante mas de 5000 registros he decidido eliminar esos registros. Con lo cual nos deja con la siguiente proporcion de clases: 
+</p>
+
+<img src="Capturas/num_clases.png" alt="Descripción de la imagen">
+
+<!-- Ademas este dataset cuenta con un total de 201 valores nulo en la columna "bmi" (indice de masa corporal), al ser un numero muy reducido ante mas de 5000 registros he decidido eliminar esos registros. Con lo cual nos deja con la siguiente proporcion de clases: 
 <ul>
     <li><b>Stork 0:</b> 4700.</li>
     <li><b>Stork 1:</b> 209.</li>
 </ul>
-</p>
+</p> -->
 
 <!-- <h4>¿Como solucionamos el desbalanceo de clases?</h4>
 <p>Por defecto, los modelos de Scikit-learn asumen que todas las filas del dataset tienen la misma importancia (peso = 1). Si tienes 940 sanos y 42 enfermos, el modelo se "esfuerza" 940 veces más en aprender a identificar sanos que en identificar enfermos.  
@@ -110,10 +137,18 @@ Ademas este dataset cuenta con un total de 201 valores nulo en la columna "bmi" 
 Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática para ajustar automáticamente los pesos de las clases de forma inversamente proporcional a su frecuencia.</p> -->
 
 
-<!-- ANEXO -->
+<!-- 3. Preparación de los datos -->
+<h2 id="preparacion">Preparación de los datos</a></h2>
+
+<p>Una vez que ya tenemos una primera vista del dataset, numero de columnas y filas, significado de cada columna y sus posibles valores. Ahora lo mas importante que tenemos que hacer es la limpieza de los datos, sin este procedimiento, cualquier analisis posterior como el de la matriz de confución seria erróneo. Debemos observar detalles como el tipo de dato de cada columna, </P>
+
+
+
+
+<!-- 10. Anexo A – Uso de herramientas de Inteligencia Artificial  -->
 <h2 id="anexo">Uso de herramientas de Inteligencia Artificial</a></h2>
 <ul>
-    <li>Herramienta(s) utilizada(s):</li>
+    <li>Herramienta(s) utilizada(s): Claude</li>
     <li>Finalidad del uso:</li>
     <li>Descripción del uso:</li>
     <li>Prompts empleados:</li>
