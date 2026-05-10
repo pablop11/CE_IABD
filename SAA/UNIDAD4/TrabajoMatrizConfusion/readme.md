@@ -181,7 +181,7 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 </ul></p>
 <img src="Capturas/model_rl.png">
 
-<p>No he usado modelos como SVM ya que son sensibles al desbalance de clases o regresion lineal ya que no es un modelo de clasificion si no de regresion.</p>
+<p>No he usado modelos como SVM ya que son sensibles al desbalance de clases o regresion lineal ya que no es un modelo de clasificacion si no de regresion.</p>
 
 
 <!-- 5. Matriz de confusión y métricas -->
@@ -211,6 +211,8 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 
 <p>El accuracy bajo a un 75% al usar <code>class_weight="balanced"</code>, aun asi este modelo si esta detectando casos reales. El modelo anterior no sirve para nada, en cambio este modelo si ya que detecta el 69% de los ataques cerebrovasculares (29 de 42). AUnque tambien tiene fallos como los 226 pacientes sanos que el modelo dice que estan enfermos, generando pruebas adiciones inecesarias, pero sigue siendo preferible a no detectar que un paciente esta enfermmo realmente.</p>
 
+<!-- StratifiedKFold -->
+
 <!-- 10. Anexo A – Uso de herramientas de Inteligencia Artificial  -->
 <h1 id="anexo">Uso de herramientas de Inteligencia Artificial</a></h1>
 <ul>
@@ -221,7 +223,7 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 </ul>
 <ul>
     <li>Herramienta(s) utilizada(s): Claude</li>
-    <li>Finalidad del uso: entender el uso de StratifiedKFold</li>
-    <li>Descripción del uso: usar dicho concepto para el desbalance de clases</li>
-    <li>Prompts empleados: explica y dame un ejemplo de uso de StratifiedKFold de scikit-learn</li>
+    <li>Finalidad del uso: entender mas en profundidad la matriz de confusion</li>
+    <li>Descripción del uso: realizar las distintas comparaciones entre las matrices de cada modelo</li>
+    <li>Prompts empleados: explicame el funcionamiento de una matriz de ocnfusion</li>
 </ul>
