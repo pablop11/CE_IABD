@@ -209,9 +209,52 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
   </div>
 </div>
 
-<p>El accuracy bajo a un 75% al usar <code>class_weight="balanced"</code>, aun asi este modelo si esta detectando casos reales. El modelo anterior no sirve para nada, en cambio este modelo si ya que detecta el 69% de los ataques cerebrovasculares (29 de 42). AUnque tambien tiene fallos como los 226 pacientes sanos que el modelo dice que estan enfermos, generando pruebas adiciones inecesarias, pero sigue siendo preferible a no detectar que un paciente esta enfermmo realmente.</p>
+<p>El accuracy bajo a un 75% al usar <code>class_weight="balanced"</code>, aun asi este modelo si esta detectando casos reales. El modelo anterior no sirve para nada, en cambio este modelo si ya que detecta el 69% de los ataques cerebrovasculares (29 de 42). Aunque tambien tiene fallos como los 226 pacientes sanos que el modelo dice que estan enfermos, generando pruebas adiciones inecesarias, pero sigue siendo preferible a no detectar que un paciente esta enfermmo realmente.</p>
 
 <!-- StratifiedKFold -->
+
+<!-- 6. Matriz de confusión y métricas -->
+<h1 id="evaluacion">Evaluación y comparación de resultados</a></h1>
+
+<!-- <p>Comparando ambos modelos Logistic Regression y Random Forest, ambos no son capaces de reconocer enfermos reales ya que el desbalance de clases hace qeu ambos modelos aprendan a predecir siempre la clase mayoritaria, es decir, predicen que siempre saldra sano. Aunque el accuracy sea de mas del 90%, no nos sirve de anda porque siempre va a decir sano cuando en realidad el modelo no tiene ni idea del resultado real. Para evitar este problema podemos usar <code>class_weight="balanced"</code> para balancear las dos clases, con Logistic Regression, el resultado mejora considerablemente, siendo capaz de detectar enfermos reales, en cambio Random Forest no cambia en absoluto, por el umbral de decision que hace que si cada prediccion. Este parametro <code>class_weight="balanced"</code> calcula automáticamente pesos inversamente proporcionales a la frecuencia de cada clase.</p> -->
+
+
+<p>
+Comparando ambos modelos, Logistic Regression y Random Forest, se observa que inicialmente ninguno es capaz de identificar correctamente a los enfermos reales debido al fuerte desbalance de clases. Esto provoca que los modelos tiendan a aprender a predecir siempre la clase mayoritaria (sano). Por esta razón, aunque el accuracy supere el 90%, esta métrica resulta engañosa, ya que el modelo no está capturando la clase minoritaria.
+
+Para mitigar este problema se utiliza <code>class_weight="balanced"</code>, que asigna mayor peso a la clase minoritaria durante el entrenamiento. Este parámetro calcula automáticamente pesos inversamente proporcionales a la frecuencia de cada clase, obligando al modelo a penalizar más los errores en los casos de enfermedad.
+
+En el caso de Logistic Regression, este ajuste funciona especialmente bien porque este modelo optimiza una función de pérdida global (log-loss). Al modificar los pesos de las clases, se altera directamente dicha función de optimización, haciendo que el modelo ajuste la frontera de decisión de forma global para dar más importancia a la clase minoritaria. Como resultado, la regresión logística es más sensible al desbalance y mejora notablemente su capacidad de detectar enfermos reales.
+
+En cambio, en Random Forest el efecto es más limitado, ya que el modelo se basa en múltiples árboles de decisión que realizan particiones locales de los datos. Aunque <code>class_weight="balanced"</code> afecta a la construcción de los árboles, no modifica de forma global el criterio final de decisión ni el umbral de clasificación.
+
+El problema principal es que ambos modelos utilizan por defecto un umbral de 0.5 para convertir probabilidades en clases. En datasets desbalanceados, las probabilidades de la clase minoritaria suelen ser bajas (inferiores a 0.5), lo que provoca que el modelo siga clasificando la mayoría de los casos como “sano”, incluso si existe cierta probabilidad de enfermedad. Esto explica por qué la matriz de confusión apenas cambia en Random Forest.
+</p>
+
+<p>
+Como alternativa al accuracy, se han utilizado otras métricas más adecuadas para problemas con desbalance de clases, ya que el accuracy puede dar una falsa sensación de buen rendimiento al estar dominado por la clase mayoritaria.
+</p>
+
+<p>
+En concreto, se han calculado el <strong>F1-score</strong>, la <strong>precision</strong>, el <strong>recall</strong> y el <strong>ROC-AUC</strong>, que permiten una evaluación más completa del modelo.
+</p>
+
+<p>
+El <strong>F1-score</strong> es la media armónica entre precision y recall, y resulta especialmente útil cuando se busca un equilibrio entre ambas métricas en problemas desbalanceados.
+</p>
+
+<p>
+La <strong>precision</strong> mide de todos los casos predichos como positivos (enfermos), cuántos son realmente correctos. Es útil cuando se quiere minimizar los falsos positivos.
+</p>
+
+<p>
+El <strong>recall</strong> mide de todos los casos positivos reales, cuántos ha sido capaz de detectar el modelo. Es especialmente importante en este problema, ya que permite evaluar si el modelo es capaz de identificar a los enfermos reales, reduciendo los falsos negativos.
+</p>
+
+<p>
+Por último, el <strong>ROC-AUC</strong> mide la capacidad del modelo para distinguir entre clases positivas y negativas independientemente del umbral de decisión. Cuanto mayor es este valor, mejor es la capacidad del modelo para separar ambas clases.
+</p>
+</p>
 
 <!-- 10. Anexo A – Uso de herramientas de Inteligencia Artificial  -->
 <h1 id="anexo">Uso de herramientas de Inteligencia Artificial</a></h1>
