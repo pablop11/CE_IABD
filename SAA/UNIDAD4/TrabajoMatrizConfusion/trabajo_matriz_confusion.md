@@ -112,15 +112,12 @@ Desde una perspectiva técnica, este problema presenta un desafío común en el 
 </p>
 
 <img src="Capturas/head_dataset.png">
-<br></br>
 
 <p>Con el metodo .shape podemos averiguar de una forma muy sencilla el numero total de columnas y filas de las que disponemos en el dataset (5110 filas y 12 columnas):</p>
 <img src="Capturas/num_col_filas.png">
-<br></br>
 
 <p>Otra parte fundamental que tenemos que conocer de los datos es su tipo, si son de tipo string, int, float, etc. Además el metodo .info() nos demuestra un detalle muy importante para la calidad del dataset, el numero de nulos que tiene cada columna, en este dataset tenemos algunos datos nulos. En el apartado de limpieza de datos veremos como podemos solucionar dicho problema</p>
 <img src="Capturas/info.png">
-<br></br>
 
 <p>Tras analizar y explorar el dataset, he podido comprobar que se trata de un dataset con dos clases stroke (0/1) bastante desbalanceado, esto puede causar problemas al modelo a la hora de entrenarlo ya que dispone de muy pocos casos de pacientes que han sufrido un accidente cerebrovascular. En total hay 5110 registros de los cuales hay:
 <ul>
@@ -153,7 +150,7 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 <p>Otra forma de limpiar los datos es mediante la eleccion de las variables que vamos a usar para entrenar el modelo. Para ello, podemos analizar la correlación entre cada variable predictora y la variable objetivo (etiqueta), lo que nos ayuda a identificar cuáles aportan información relevante para la predicción y cuáles pueden descartarse. En principio solo voy a borrar la columna de id que no aporta absolutamente nada.</p>
 <img src="Capturas/corr.png">
 
-<p>Como hemos podido observar en la captura de los tipos de columnas que tenemos, vemos que teneos columnas categoricas. Mediante el metodo get_dummies(), pasamos las columnas a numericas, añadiendo nuevas columnas numericas con cada valor unico de cada columnas categorica, de esta forma podremos usar estos datos convertidos a numericos para entreanr nuestro modelo. Pasamos de tener inicialmente 11 columnas a tener 22. Con esto tambien podemos ver la correlacion de cada valor numerico unico de cada nueva columna</p>
+<p>Como hemos podido observar en la captura de los tipos de columnas que tenemos, vemos que teneos columnas categoricas. Mediante el metodo get_dummies(), pasamos las columnas a numericas, añadiendo nuevas columnas numericas con cada valor unico de cada columnas categorica, de esta forma podremos usar estos datos convertidos a numericos para entreanr nuestro modelo. Pasamos de tener inicialmente 11 columnas a tener 22. Con esto tambien podemos ver la correlacion de cada valor numerico unico de cada nueva columna.</p>
 <img src="Capturas/corr_final.png">
 
 <p>Para finalizar con este apartado, tenemos que definir X (todas las variables menos la etiqueta) e y (etiqueta). Muy importante escalar los datos mediante StandardScaler() antes de entrenar nuestros modelos y dividir en entrenamiento y test.</p>
@@ -212,13 +209,13 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 <p>El accuracy bajo a un 75% al usar <code>class_weight="balanced"</code>, aun asi este modelo si esta detectando casos reales. El modelo anterior no sirve para nada, en cambio este modelo si ya que detecta el 69% de los ataques cerebrovasculares (29 de 42). Aunque tambien tiene fallos como los 226 pacientes sanos que el modelo dice que estan enfermos, generando pruebas adiciones inecesarias, pero sigue siendo preferible a no detectar que un paciente esta enfermmo realmente.</p>
 
 <!-- StratifiedKFold -->
+<h3><strong>Uso de StratifiedKFold con el modelo LogisticRegression con class_weight:</strong></h3>
+<img src="Capturas/skf_rl.png">
+<p>Esta técnica sirve para evaluar de forma más equilibrada el rendimiento de la regresión logística en un dataset desbalanceado, asegurando que cada partición mantenga una proporción similar de casos positivos y negativos. Gracias al uso de StratifiedKFold, las métricas obtenidas son más estables y representativas del comportamiento real del modelo.</p>
+
 
 <!-- 6. Matriz de confusión y métricas -->
 <h1 id="evaluacion">Evaluación y comparación de resultados</a></h1>
-
-<!-- <p>Comparando ambos modelos Logistic Regression y Random Forest, ambos no son capaces de reconocer enfermos reales ya que el desbalance de clases hace qeu ambos modelos aprendan a predecir siempre la clase mayoritaria, es decir, predicen que siempre saldra sano. Aunque el accuracy sea de mas del 90%, no nos sirve de anda porque siempre va a decir sano cuando en realidad el modelo no tiene ni idea del resultado real. Para evitar este problema podemos usar <code>class_weight="balanced"</code> para balancear las dos clases, con Logistic Regression, el resultado mejora considerablemente, siendo capaz de detectar enfermos reales, en cambio Random Forest no cambia en absoluto, por el umbral de decision que hace que si cada prediccion. Este parametro <code>class_weight="balanced"</code> calcula automáticamente pesos inversamente proporcionales a la frecuencia de cada clase.</p> -->
-
-
 <p>
 Comparando ambos modelos, Logistic Regression y Random Forest, se observa que inicialmente ninguno es capaz de identificar correctamente a los enfermos reales debido al fuerte desbalance de clases. Esto provoca que los modelos tiendan a aprender a predecir siempre la clase mayoritaria (sano). Por esta razón, aunque el accuracy supere el 90%, esta métrica resulta engañosa, ya que el modelo no está capturando la clase minoritaria.
 
@@ -231,30 +228,50 @@ En cambio, en Random Forest el efecto es más limitado, ya que el modelo se basa
 El problema principal es que ambos modelos utilizan por defecto un umbral de 0.5 para convertir probabilidades en clases. En datasets desbalanceados, las probabilidades de la clase minoritaria suelen ser bajas (inferiores a 0.5), lo que provoca que el modelo siga clasificando la mayoría de los casos como “sano”, incluso si existe cierta probabilidad de enfermedad. Esto explica por qué la matriz de confusión apenas cambia en Random Forest.
 </p>
 
-<p>
-Como alternativa al accuracy, se han utilizado otras métricas más adecuadas para problemas con desbalance de clases, ya que el accuracy puede dar una falsa sensación de buen rendimiento al estar dominado por la clase mayoritaria.
-</p>
+<h3><strong>Utilidad de RandomForest frente a la decision de variables:</strong></h3>
+<img src="Capturas/var_imp.png">
+<p>Random Forest nos permite averiguar las variables que mas contribuyen a predecir un accidente cerebrovascular, como la edad, nivel de glucos, etc. Tambien nos tenemos qeu fijar en una cosa muy particular, la variable bmi (indice de masa corporal) es de las que menos correlacion tiene con la variable objetivo stroke. Sin embargo Random Forest la considera bastante influyente en la predicion. El bajo valor de correlación indica que no hay una relación lineal directa (proporcional), pero la alta importancia en el Random Forest demuestra que el bmi posee una alta capacidad discriminatoria cuando se utiliza en combinación con otras variables dentro de una estructura de decisión no lineal.</p>
 
-<p>
+
+<img src="Capturas/metricas.png">
+<p>Como alternativa al accuracy, he utilizado otras métricas más adecuadas para problemas con desbalance de clases, ya que el accuracy puede dar una falsa sensación de buen rendimiento al estar dominado por la clase mayoritaria.
 En concreto, se han calculado el <strong>F1-score</strong>, la <strong>precision</strong>, el <strong>recall</strong> y el <strong>ROC-AUC</strong>, que permiten una evaluación más completa del modelo.
+    <ul>
+        <li>El <strong>F1-score</strong> es la media entre precision y recall, y resulta especialmente útil cuando se busca un equilibrio entre ambas métricas en problemas desbalanceados.</li>
+        <li>La <strong>precision</strong> mide de todos los casos predichos como positivos (enfermos), cuántos son realmente correctos. Es útil cuando se quiere minimizar los falsos positivos.</li>
+        <li>El <strong>recall</strong> mide de todos los casos positivos reales, cuántos ha sido capaz de detectar el modelo. Es especialmente importante en este problema, ya que permite evaluar si el modelo es capaz de identificar a los enfermos reales, reduciendo los falsos negativos.</li>
+        <li>El <strong>ROC-AUC</strong> mide la capacidad del modelo para distinguir entre clases positivas y negativas independientemente del umbral de decisión. Cuanto mayor es este valor, mejor es la capacidad del modelo para separar ambas clases.</li>
+    </ul>
+Observando la imagen de las diferentes metricas, podemos observar que Logistic Regression, Random Forest y Random Forest con balanceo de clases aun teniendo una accuracy de mas del 90%, no son capaces de detectar ningun caso real de enfermedad, por lo tanto la precision es 0, ademas del f1_score, que es la media entre precision y recall. Sin embargo estos modelos ssi consiguen separar las clases, de ahi su ROC-AUC bastante alto pero como he dicho antes, al ser un dataset desbalanceado, los pesos de cada probabiliadad son demasido bajos para el umbral lo que hace que no detecte dichos casos. Bajando dicho umbral, los modelos serian capaces de detectar casos reales de enfermos pero también aumentarían los falsos positivos, reduciendo así la precisión del modelo.</p>
+
+
+<!-- 7. Conclusiones y limitaciones -->
+<h1 id="conclusiones">Conclusiones y limitaciones</a></h1>
+<p>Como conclusiones finales, quiero recalcar varias cosas:
+    <ul>
+        <li>Cuando tenemos un dataset con desbalance de clases, no debemos fijarnos solo en la accuracy como metrica de precision del modelo, si no en otras como f1-score, recall, precision y roc-auc.</li>
+        <li>El uso de <code>class_weight="balanced"</code> en RandomForest no influye absolutamente nada, debido a los umbrales.</li>
+        <li>Priorización del recall en medicina, se ha determinado que el recall es una métrica más crítica que la precisión global. Es preferible generar falsos positivos (pacientes sanos que requieren pruebas adicionales) que falsos negativos, donde un paciente enfermo no es detectado, con las graves consecuencias que ello conlleva.</li>
+    </ul>
+</p>
+<p>Limitaciones a la hora de trabajar con este dataset:
+    <ul>
+        <li>El dataset presenta una escasez crítica de casos positivos (solo 209 registros de "ictus" frente a 4700 "sanos"). Esta desproporción dificulta que los modelos aprendan patrones robustos de la clase minoritaria.</li>
+        <li>Al mejorar la detección de enfermos, se incrementó notablemente el número de falsos positivos (226 casos en la Regresión Logística balanceada). Esto refleja una limitación técnica donde el aumento de la sensibilidad reduce la precisión del modelo.</li>
+        <li>El uso del umbral por defecto (0.5) para convertir probabilidades en clases limita el rendimiento de los modelos en datasets desbalanceados, ya que las probabilidades asignadas a la clase minoritaria suelen ser muy bajas.</li>
+    </ul>
 </p>
 
-<p>
-El <strong>F1-score</strong> es la media armónica entre precision y recall, y resulta especialmente útil cuando se busca un equilibrio entre ambas métricas en problemas desbalanceados.
-</p>
 
-<p>
-La <strong>precision</strong> mide de todos los casos predichos como positivos (enfermos), cuántos son realmente correctos. Es útil cuando se quiere minimizar los falsos positivos.
-</p>
+<!-- 8. Líneas de mejora y trabajo futuro -->
+<h1 id="mejoras">Líneas de mejora y trabajo futuro</a></h1>
+<p>El principal problema de este dataset es que una clase domina sobre la otra (4700>209), la solucion mas obvia y directa seria recolectar mas datos hasta tener una proporcion parecida de las dos clases. Esta solucion nos ahorraria tener que usar <code>class_weight="balanced"</code>, por lo tanto la precision aumentaria y la sensibilidad seria minima, es decir, el modelo podria predecir la clase enfermo sin perjudicar la sensibilidad, ademas de que no tendriamos que modificar el umbral.</p>
+<p>Seria conveniente buscar informacion acerca de modelos especialidados en este tipo de datasets para que a lo hora de entrenar un modelo, esto sea mas sencillo en vez de tener que comparar varios modelos junto con metricas diferentes para valorar si realmente estos modelos cumplen su proposito.</p>
 
-<p>
-El <strong>recall</strong> mide de todos los casos positivos reales, cuántos ha sido capaz de detectar el modelo. Es especialmente importante en este problema, ya que permite evaluar si el modelo es capaz de identificar a los enfermos reales, reduciendo los falsos negativos.
-</p>
 
-<p>
-Por último, el <strong>ROC-AUC</strong> mide la capacidad del modelo para distinguir entre clases positivas y negativas independientemente del umbral de decisión. Cuanto mayor es este valor, mejor es la capacidad del modelo para separar ambas clases.
-</p>
-</p>
+<!-- 9. Referencias -->
+<h1 id="referencias">Referencias</a></h1>
+<a href="https://www.kaggle.com/datasets/fedesoriano/stroke-prediction-dataset" target="_blank">Stroke Prediction Dataset disponible en Kaggle.</a></p>
 
 <!-- 10. Anexo A – Uso de herramientas de Inteligencia Artificial  -->
 <h1 id="anexo">Uso de herramientas de Inteligencia Artificial</a></h1>
@@ -268,5 +285,17 @@ Por último, el <strong>ROC-AUC</strong> mide la capacidad del modelo para disti
     <li>Herramienta(s) utilizada(s): Claude</li>
     <li>Finalidad del uso: entender mas en profundidad la matriz de confusion</li>
     <li>Descripción del uso: realizar las distintas comparaciones entre las matrices de cada modelo</li>
-    <li>Prompts empleados: explicame el funcionamiento de una matriz de ocnfusion</li>
+    <li>Prompts empleados: explicame el funcionamiento de una matriz de confusion</li>
+</ul>
+<ul>
+    <li>Herramienta(s) utilizada(s): Claude</li>
+    <li>Finalidad del uso: entender la utilidad de cada metrica en datasets desbalanceados</li>
+    <li>Descripción del uso: realizar las distintas comparaciones entre las metricas</li>
+    <li>Prompts empleados: explicame el funcionamiento de metricas como f1-score, recall, precision y auc-</li>
+</ul>
+<ul>
+    <li>Herramienta(s) utilizada(s): Claude</li>
+    <li>Finalidad del uso: entender porque una variable puede no tener casi correlacion con la objetivo pero ser importante para el entrenamiento de un modelo</li>
+    <li>Descripción del uso: mejorar la eleccion de las variables junto con la justificacion de porque elegir random forest como modelo para entrenar</li>
+    <li>Prompts empleados: explicame como una variable puede ser relavante sin tener casi correlacion con la varaible objetivo a la hora de usar random forest</li>
 </ul>
