@@ -1,6 +1,7 @@
+<!-- PORTADA -->
 <div style="text-align: center; padding: 50px; height: 900px; margin: 10px;">
     <br><br>
-    <p style="font-size: 1.2em; font-weight: bold;">CURSO DE ESPECIALIZACIÓN EN IA Y BIG DATA</p>
+    <p style="font-size: 1.2em; font-weight: bold;">CURSO DE ESPECIALIZACIÓN DE IA Y BIG DATA</p>
     <br><br><br>
     <h1 style="color: blue; font-size: 3em;">Trabajo de Investigación:<br>Matriz de Confusión</h1>
     <br>
@@ -128,11 +129,6 @@ Desde una perspectiva técnica, este problema presenta un desafío común en el 
 
 <img src="Capturas/num_clases.png">
 
-<!-- <h4>¿Como solucionamos el desbalanceo de clases?</h4>
-<p>Por defecto, los modelos de Scikit-learn asumen que todas las filas del dataset tienen la misma importancia (peso = 1). Si tienes 940 sanos y 42 enfermos, el modelo se "esfuerza" 940 veces más en aprender a identificar sanos que en identificar enfermos.  
-
-Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática para ajustar automáticamente los pesos de las clases de forma inversamente proporcional a su frecuencia.</p> -->
-
 
 <!-- 3. Preparación de los datos -->
 <h1 id="preparacion">Preparación de los datos</a></h1>
@@ -184,29 +180,24 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 <!-- 5. Matriz de confusión y métricas -->
 <h1 id="metricas">Matriz de confusión y métricas</a></h1>
 
-<!-- <h3>LogisticRegression sin class_weight:</h3>
-<img src="Capturas/matriz_rf.png">
-<p>En esta matriz de confusion podemos ver que el modelo ha clasificado correctamente 940 pacientes sanos como sanos, 42 pacientes con un ataque cerebrovascualar como sanos y 0 pacientes como enfermos en ningun caso. Hay un serio problema, el modelo no detecta correctamente, aunque el modelo muestre un 95% de accuracy, no significa que sea bueno ya que predice siempre sano.</p> -->
-
-<div style="display:flex; gap:40px; align-items:flex-start;">
-  <div style="width:50%;">
+<div style="display:flex; gap:70px; align-items:flex-start;">
+  <div style="width:40%; padding:20px;">
     <h3>LogisticRegression sin class_weight:</h3>
-    <img src="Capturas/matriz_rl.png">
+    <img src="Capturas/matriz_rl.png" style="width:110%;">
     <p>
-      Sin el uso de <code>class_weight="balanced".</code>En esta matriz de confusión podemos ver que el modelo ha clasificado correctamente 940 pacientes sanos como sanos, 42 pacientes con un ataque cerebrovascular como sanos y 0 pacientes como enfermos en ningún caso. Hay un serio problema: el modelo no detecta correctamente los casos positivos. Aunque muestre un 95% de accuracy, esto no significa que sea un buen modelo, ya que predice siempre la clase “sano”.
+      Sin el uso de <strong>class_weight="balanced".</strong> En esta matriz de confusión podemos ver que el modelo ha clasificado correctamente 940 pacientes sanos como sanos, 42 pacientes con un ataque cerebrovascular como sanos y 0 pacientes como enfermos en ningún caso. Hay un serio problema: el modelo no detecta correctamente los casos positivos. Aunque muestre un 95% de accuracy, esto no significa que sea un buen modelo, ya que predice siempre la clase "sano".
     </p>
   </div>
-
-  <div style="width:50%;">
+  <div style="width:40%; padding:20px;">
     <h3>LogisticRegression con class_weight:</h3>
-    <img src="Capturas/matriz_rl_balanced.png">
+    <img src="Capturas/matriz_rl_balanced.png" style="width:110%;">
     <p>
-      Con el uso de <code>class_weight="balanced".</code>El modelo da más importancia a la clase minoritaria, mejorando la detección de pacientes enfermos y evitando que el modelo favorezca únicamente la clase mayoritaria. Detecta 714 pacientes sanos como sanos, 226 sanos como enfermos (falsos positivos), 29 enfermos como enfermos, y 13 enfermos como sanos (falsos negativos).
+      Con el uso de <strong>class_weight="balanced".</strong> El modelo da más importancia a la clase minoritaria, mejorando la detección de pacientes enfermos y evitando que el modelo favorezca únicamente la clase mayoritaria. Detecta 714 pacientes sanos como sanos, 226 sanos como enfermos (falsos positivos), 29 enfermos como enfermos, y 13 enfermos como sanos (falsos negativos).
     </p>
   </div>
 </div>
 
-<p>El accuracy bajo a un 75% al usar <code>class_weight="balanced"</code>, aun asi este modelo si esta detectando casos reales. El modelo anterior no sirve para nada, en cambio este modelo si ya que detecta el 69% de los ataques cerebrovasculares (29 de 42). Aunque tambien tiene fallos como los 226 pacientes sanos que el modelo dice que estan enfermos, generando pruebas adiciones inecesarias, pero sigue siendo preferible a no detectar que un paciente esta enfermmo realmente.</p>
+<p>El accuracy bajo a un 75% al usar <strong>class_weight="balanced"</strong>, aun asi este modelo si esta detectando casos reales. El modelo anterior no sirve para nada, en cambio este modelo si ya que detecta el 69% de los ataques cerebrovasculares (29 de 42). Aunque tambien tiene fallos como los 226 pacientes sanos que el modelo dice que estan enfermos, generando pruebas adiciones inecesarias, pero sigue siendo preferible a no detectar que un paciente esta enfermmo realmente.</p>
 
 <!-- StratifiedKFold -->
 <h3><strong>Uso de StratifiedKFold con el modelo LogisticRegression con class_weight:</strong></h3>
@@ -217,13 +208,13 @@ Al usar class_weight='balanced', Scikit-learn aplica una fórmula matemática pa
 <!-- 6. Matriz de confusión y métricas -->
 <h1 id="evaluacion">Evaluación y comparación de resultados</a></h1>
 <p>
-Comparando ambos modelos, Logistic Regression y Random Forest, se observa que inicialmente ninguno es capaz de identificar correctamente a los enfermos reales debido al fuerte desbalance de clases. Esto provoca que los modelos tiendan a aprender a predecir siempre la clase mayoritaria (sano). Por esta razón, aunque el accuracy supere el 90%, esta métrica resulta engañosa, ya que el modelo no está capturando la clase minoritaria.
+Comparando ambos modelos, Logistic Regression y Random Forest, se observa que inicialmente ninguno es capaz de identificar correctamente a los enfermos reales debido al fuerte desbalance de clases. Esto provoca que los modelos tiendan a aprender a predecir siempre la clase mayoritaria (sano). Por esta razón, aunque el accuracy supere el 90%, esta métrica resulta engañosa, ya que el modelo no está capturando la clase minoritaria. De ambos modelos, el mas "seguro" por decirlo de alguna manera o el mas eficaz frente al otro, seria el LogisticRegression con class_weight.
 
-Para mitigar este problema se utiliza <code>class_weight="balanced"</code>, que asigna mayor peso a la clase minoritaria durante el entrenamiento. Este parámetro calcula automáticamente pesos inversamente proporcionales a la frecuencia de cada clase, obligando al modelo a penalizar más los errores en los casos de enfermedad.
+Para mitigar este problema se utiliza <strong>class_weight="balanced"</strong>, que asigna mayor peso a la clase minoritaria durante el entrenamiento. Este parámetro calcula automáticamente pesos inversamente proporcionales a la frecuencia de cada clase, obligando al modelo a penalizar más los errores en los casos de enfermedad.
 
 En el caso de Logistic Regression, este ajuste funciona especialmente bien porque este modelo optimiza una función de pérdida global (log-loss). Al modificar los pesos de las clases, se altera directamente dicha función de optimización, haciendo que el modelo ajuste la frontera de decisión de forma global para dar más importancia a la clase minoritaria. Como resultado, la regresión logística es más sensible al desbalance y mejora notablemente su capacidad de detectar enfermos reales.
 
-En cambio, en Random Forest el efecto es más limitado, ya que el modelo se basa en múltiples árboles de decisión que realizan particiones locales de los datos. Aunque <code>class_weight="balanced"</code> afecta a la construcción de los árboles, no modifica de forma global el criterio final de decisión ni el umbral de clasificación.
+En cambio, en Random Forest el efecto es más limitado, ya que el modelo se basa en múltiples árboles de decisión que realizan particiones locales de los datos. Aunque <strong>class_weight="balanced"</strong> afecta a la construcción de los árboles, no modifica de forma global el criterio final de decisión ni el umbral de clasificación.
 
 El problema principal es que ambos modelos utilizan por defecto un umbral de 0.5 para convertir probabilidades en clases. En datasets desbalanceados, las probabilidades de la clase minoritaria suelen ser bajas (inferiores a 0.5), lo que provoca que el modelo siga clasificando la mayoría de los casos como “sano”, incluso si existe cierta probabilidad de enfermedad. Esto explica por qué la matriz de confusión apenas cambia en Random Forest.
 </p>
@@ -250,7 +241,7 @@ Observando la imagen de las diferentes metricas, podemos observar que Logistic R
 <p>Como conclusiones finales, quiero recalcar varias cosas:
     <ul>
         <li>Cuando tenemos un dataset con desbalance de clases, no debemos fijarnos solo en la accuracy como metrica de precision del modelo, si no en otras como f1-score, recall, precision y roc-auc.</li>
-        <li>El uso de <code>class_weight="balanced"</code> en RandomForest no influye absolutamente nada, debido a los umbrales.</li>
+        <li>El uso de <strong>class_weight="balanced"</strong> en RandomForest no influye absolutamente nada, debido a los umbrales.</li>
         <li>Priorización del recall en medicina, se ha determinado que el recall es una métrica más crítica que la precisión global. Es preferible generar falsos positivos (pacientes sanos que requieren pruebas adicionales) que falsos negativos, donde un paciente enfermo no es detectado, con las graves consecuencias que ello conlleva.</li>
     </ul>
 </p>
@@ -265,7 +256,7 @@ Observando la imagen de las diferentes metricas, podemos observar que Logistic R
 
 <!-- 8. Líneas de mejora y trabajo futuro -->
 <h1 id="mejoras">Líneas de mejora y trabajo futuro</a></h1>
-<p>El principal problema de este dataset es que una clase domina sobre la otra (4700>209), la solucion mas obvia y directa seria recolectar mas datos hasta tener una proporcion parecida de las dos clases. Esta solucion nos ahorraria tener que usar <code>class_weight="balanced"</code>, por lo tanto la precision aumentaria y la sensibilidad seria minima, es decir, el modelo podria predecir la clase enfermo sin perjudicar la sensibilidad, ademas de que no tendriamos que modificar el umbral.</p>
+<p>El principal problema de este dataset es que una clase domina sobre la otra (4700>209), la solucion mas obvia y directa seria recolectar mas datos hasta tener una proporcion parecida de las dos clases. Esta solucion nos ahorraria tener que usar <strong>class_weight="balanced"</strong>, por lo tanto la precision aumentaria y la sensibilidad seria minima, es decir, el modelo podria predecir la clase enfermo sin perjudicar la sensibilidad, ademas de que no tendriamos que modificar el umbral.</p>
 <p>Seria conveniente buscar informacion acerca de modelos especialidados en este tipo de datasets para que a lo hora de entrenar un modelo, esto sea mas sencillo en vez de tener que comparar varios modelos junto con metricas diferentes para valorar si realmente estos modelos cumplen su proposito.</p>
 
 
@@ -276,26 +267,26 @@ Observando la imagen de las diferentes metricas, podemos observar que Logistic R
 <!-- 10. Anexo A – Uso de herramientas de Inteligencia Artificial  -->
 <h1 id="anexo">Uso de herramientas de Inteligencia Artificial</a></h1>
 <ul>
-    <li>Herramienta(s) utilizada(s): Claude</li>
-    <li>Finalidad del uso: entender el uso de StratifiedKFold</li>
-    <li>Descripción del uso: usar dicho concepto para el desbalance de clases</li>
-    <li>Prompts empleados: explica y dame un ejemplo de uso de StratifiedKFold de scikit-learn</li>
+    <li>Herramienta(s) utilizada(s): Claude.</li>
+    <li>Finalidad del uso: Entender el uso de StratifiedKFold.</li>
+    <li>Descripción del uso: Usar dicho concepto para el desbalance de clases.</li>
+    <li>Prompts empleados: Explica y dame un ejemplo de uso de StratifiedKFold de scikit-learn.</li>
 </ul>
 <ul>
-    <li>Herramienta(s) utilizada(s): Claude</li>
-    <li>Finalidad del uso: entender mas en profundidad la matriz de confusion</li>
-    <li>Descripción del uso: realizar las distintas comparaciones entre las matrices de cada modelo</li>
-    <li>Prompts empleados: explicame el funcionamiento de una matriz de confusion</li>
+    <li>Herramienta(s) utilizada(s): Claude.</li>
+    <li>Finalidad del uso: Entender mas en profundidad la matriz de confusion.</li>
+    <li>Descripción del uso: Realizar las distintas comparaciones entre las matrices de cada modelo.</li>
+    <li>Prompts empleados: Explicame el funcionamiento de una matriz de confusion.</li>
 </ul>
 <ul>
-    <li>Herramienta(s) utilizada(s): Claude</li>
-    <li>Finalidad del uso: entender la utilidad de cada metrica en datasets desbalanceados</li>
-    <li>Descripción del uso: realizar las distintas comparaciones entre las metricas</li>
-    <li>Prompts empleados: explicame el funcionamiento de metricas como f1-score, recall, precision y auc-</li>
+    <li>Herramienta(s) utilizada(s): Claude.</li>
+    <li>Finalidad del uso: Entender la utilidad de cada metrica en datasets desbalanceados.</li>
+    <li>Descripción del uso: Realizar las distintas comparaciones entre las metricas.</li>
+    <li>Prompts empleados: Explicame el funcionamiento de metricas como f1-score, recall, precision y roc-auc.</li>
 </ul>
 <ul>
-    <li>Herramienta(s) utilizada(s): Claude</li>
-    <li>Finalidad del uso: entender porque una variable puede no tener casi correlacion con la objetivo pero ser importante para el entrenamiento de un modelo</li>
-    <li>Descripción del uso: mejorar la eleccion de las variables junto con la justificacion de porque elegir random forest como modelo para entrenar</li>
-    <li>Prompts empleados: explicame como una variable puede ser relavante sin tener casi correlacion con la varaible objetivo a la hora de usar random forest</li>
+    <li>Herramienta(s) utilizada(s): Claude.</li>
+    <li>Finalidad del uso: Entender porque una variable puede no tener casi correlacion con la objetivo pero ser importante para el entrenamiento de un modelo.</li>
+    <li>Descripción del uso: Mejorar la eleccion de las variables junto con la justificacion de porque elegir random forest como modelo para entrenar.</li>
+    <li>Prompts empleados: Explicame como una variable puede ser relavante sin tener casi correlacion con la varaible objetivo a la hora de usar random forest.</li>
 </ul>
