@@ -228,7 +228,7 @@ El problema principal es que ambos modelos utilizan por defecto un umbral de 0.5
 <p>Como alternativa al accuracy, he utilizado otras métricas más adecuadas para problemas con desbalance de clases, ya que el accuracy puede dar una falsa sensación de buen rendimiento al estar dominado por la clase mayoritaria.
 En concreto, se han calculado el <strong>F1-score</strong>, la <strong>precision</strong>, el <strong>recall</strong> y el <strong>ROC-AUC</strong>, que permiten una evaluación más completa del modelo.
     <ul>
-        <li>El <strong>F1-score</strong> es la media entre precision y recall, y resulta especialmente útil cuando se busca un equilibrio entre ambas métricas en problemas desbalanceados.</li>
+        <li>El <strong>F1-score</strong> es la media ármonica (penaliza cuando uno de los dos valores es muy bajo) entre precision y recall, y resulta especialmente útil cuando se busca un equilibrio entre ambas métricas en problemas desbalanceados.</li>
         <li>La <strong>precision</strong> mide de todos los casos predichos como positivos (enfermos), cuántos son realmente correctos. Es útil cuando se quiere minimizar los falsos positivos.</li>
         <li>El <strong>recall</strong> mide de todos los casos positivos reales, cuántos ha sido capaz de detectar el modelo. Es especialmente importante en este problema, ya que permite evaluar si el modelo es capaz de identificar a los enfermos reales, reduciendo los falsos negativos.</li>
         <li>El <strong>ROC-AUC</strong> mide la capacidad del modelo para distinguir entre clases positivas y negativas independientemente del umbral de decisión. Cuanto mayor es este valor, mejor es la capacidad del modelo para separar ambas clases.</li>
